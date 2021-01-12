@@ -17,19 +17,13 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "token0",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token1",
+        "name": "token",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address",
-        "name": "pair",
+        "name": "pool",
         "type": "address"
       },
       {
@@ -39,7 +33,7 @@
         "type": "uint256"
       }
     ],
-    "name": "PairCreated",
+    "name": "PoolCreated",
     "type": "event"
   },
   {
@@ -51,7 +45,7 @@
         "type": "uint256"
       }
     ],
-    "name": "allPairs",
+    "name": "allPools",
     "outputs": [
       {
         "internalType": "address",
@@ -66,7 +60,7 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "allPairsLength",
+    "name": "feeInBips",
     "outputs": [
       {
         "internalType": "uint256",
@@ -76,32 +70,6 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenA",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "tokenB",
-        "type": "address"
-      }
-    ],
-    "name": "createPair",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "pair",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -141,14 +109,9 @@
         "internalType": "address",
         "name": "",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
       }
     ],
-    "name": "getPair",
+    "name": "getPool",
     "outputs": [
       {
         "internalType": "address",
@@ -158,6 +121,57 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "allPoolsLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "createPool",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_feeInBips",
+        "type": "uint256"
+      }
+    ],
+    "name": "setFeeInBips",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

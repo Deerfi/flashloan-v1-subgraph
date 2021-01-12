@@ -1,92 +1,87 @@
-import { PairHourData } from './../types/schema'
+import { PoolHourData } from './../types/schema'
 /* eslint-disable prefer-const */
 import { BigInt, BigDecimal, EthereumEvent } from '@graphprotocol/graph-ts'
-import { Pair, Bundle, Token, UniswapFactory, UniswapDayData, PairDayData, TokenDayData } from '../types/schema'
+import { Pool, Bundle, Token, FlashLoanFactory, FlashLoanDayData, PoolDayData, TokenDayData } from '../types/schema'
 import { ONE_BI, ZERO_BD, ZERO_BI, FACTORY_ADDRESS } from './helpers'
 
-export function updateUniswapDayData(event: EthereumEvent): UniswapDayData {
-  let uniswap = UniswapFactory.load(FACTORY_ADDRESS)
+export function updateFlashLoanDayData(event: EthereumEvent): FlashLoanDayData {
+  let factory = FlashLoanFactory.load(FACTORY_ADDRESS)
   let timestamp = event.block.timestamp.toI32()
   let dayID = timestamp / 86400
   let dayStartTimestamp = dayID * 86400
-  let uniswapDayData = UniswapDayData.load(dayID.toString())
-  if (uniswapDayData === null) {
-    uniswapDayData = new UniswapDayData(dayID.toString())
-    uniswapDayData.date = dayStartTimestamp
-    uniswapDayData.dailyVolumeUSD = ZERO_BD
-    uniswapDayData.dailyVolumeETH = ZERO_BD
-    uniswapDayData.totalVolumeUSD = ZERO_BD
-    uniswapDayData.totalVolumeETH = ZERO_BD
-    uniswapDayData.dailyVolumeUntracked = ZERO_BD
+  let flashLoanDayData = FlashLoanDayData.load(dayID.toString())
+  if (flashLoanDayData === null) {
+    flashLoanDayData = new FlashLoanDayData(dayID.toString())
+    flashLoanDayData.date = dayStartTimestamp
+    flashLoanDayData.dailyVolumeUSD = ZERO_BD
+    flashLoanDayData.dailyVolumeETH = ZERO_BD
+    flashLoanDayData.totalVolumeUSD = ZERO_BD
+    flashLoanDayData.totalVolumeETH = ZERO_BD
+    flashLoanDayData.dailyVolumeUntracked = ZERO_BD
   }
 
-  uniswapDayData.totalLiquidityUSD = uniswap.totalLiquidityUSD
-  uniswapDayData.totalLiquidityETH = uniswap.totalLiquidityETH
-  uniswapDayData.txCount = uniswap.txCount
-  uniswapDayData.save()
+  flashLoanDayData.totalLiquidityUSD = factory.totalLiquidityUSD
+  flashLoanDayData.totalLiquidityETH = factory.totalLiquidityETH
+  flashLoanDayData.txCount = factory.txCount
+  flashLoanDayData.save()
 
-  return uniswapDayData as UniswapDayData
+  return flashLoanDayData as FlashLoanDayData
 }
 
-export function updatePairDayData(event: EthereumEvent): PairDayData {
+export function updatePoolDayData(event: EthereumEvent): PoolDayData {
   let timestamp = event.block.timestamp.toI32()
   let dayID = timestamp / 86400
   let dayStartTimestamp = dayID * 86400
-  let dayPairID = event.address
+  let dayPoolID = event.address
     .toHexString()
     .concat('-')
     .concat(BigInt.fromI32(dayID).toString())
-  let pair = Pair.load(event.address.toHexString())
-  let pairDayData = PairDayData.load(dayPairID)
-  if (pairDayData === null) {
-    pairDayData = new PairDayData(dayPairID)
-    pairDayData.date = dayStartTimestamp
-    pairDayData.token0 = pair.token0
-    pairDayData.token1 = pair.token1
-    pairDayData.pairAddress = event.address
-    pairDayData.dailyVolumeToken0 = ZERO_BD
-    pairDayData.dailyVolumeToken1 = ZERO_BD
-    pairDayData.dailyVolumeUSD = ZERO_BD
-    pairDayData.dailyTxns = ZERO_BI
+  let pool = Pool.load(event.address.toHexString())
+  let poolDayData = PoolDayData.load(dayPoolID)
+  if (poolDayData === null) {
+    poolDayData = new PoolDayData(dayPoolID)
+    poolDayData.date = dayStartTimestamp
+    poolDayData.token = pool.token
+    poolDayData.poolAddress = event.address
+    poolDayData.dailyVolumeToken = ZERO_BD
+    poolDayData.dailyVolumeUSD = ZERO_BD
+    poolDayData.dailyTxns = ZERO_BI
   }
 
-  pairDayData.totalSupply = pair.totalSupply
-  pairDayData.reserve0 = pair.reserve0
-  pairDayData.reserve1 = pair.reserve1
-  pairDayData.reserveUSD = pair.reserveUSD
-  pairDayData.dailyTxns = pairDayData.dailyTxns.plus(ONE_BI)
-  pairDayData.save()
+  poolDayData.totalSupply = pool.totalSupply
+  poolDayData.reserve = pool.reserve
+  poolDayData.reserveUSD = pool.reserveUSD
+  poolDayData.dailyTxns = poolDayData.dailyTxns.plus(ONE_BI)
+  poolDayData.save()
 
-  return pairDayData as PairDayData
+  return poolDayData as PoolDayData
 }
 
-export function updatePairHourData(event: EthereumEvent): PairHourData {
+export function updatePoolHourData(event: EthereumEvent): PoolHourData {
   let timestamp = event.block.timestamp.toI32()
   let hourIndex = timestamp / 3600 // get unique hour within unix history
   let hourStartUnix = hourIndex * 3600 // want the rounded effect
-  let hourPairID = event.address
+  let hourPoorID = event.address
     .toHexString()
     .concat('-')
     .concat(BigInt.fromI32(hourIndex).toString())
-  let pair = Pair.load(event.address.toHexString())
-  let pairHourData = PairHourData.load(hourPairID)
-  if (pairHourData === null) {
-    pairHourData = new PairHourData(hourPairID)
-    pairHourData.hourStartUnix = hourStartUnix
-    pairHourData.pair = event.address.toHexString()
-    pairHourData.hourlyVolumeToken0 = ZERO_BD
-    pairHourData.hourlyVolumeToken1 = ZERO_BD
-    pairHourData.hourlyVolumeUSD = ZERO_BD
-    pairHourData.hourlyTxns = ZERO_BI
+  let pool = Pool.load(event.address.toHexString())
+  let poolHourData = PoolHourData.load(hourPoorID)
+  if (poolHourData === null) {
+    poolHourData = new PoolHourData(hourPoorID)
+    poolHourData.hourStartUnix = hourStartUnix
+    poolHourData.pool = event.address.toHexString()
+    poolHourData.hourlyVolumeToken = ZERO_BD
+    poolHourData.hourlyVolumeUSD = ZERO_BD
+    poolHourData.hourlyTxns = ZERO_BI
   }
 
-  pairHourData.reserve0 = pair.reserve0
-  pairHourData.reserve1 = pair.reserve1
-  pairHourData.reserveUSD = pair.reserveUSD
-  pairHourData.hourlyTxns = pairHourData.hourlyTxns.plus(ONE_BI)
-  pairHourData.save()
+  poolHourData.reserve = pool.reserve
+  poolHourData.reserveUSD = pool.reserveUSD
+  poolHourData.hourlyTxns = poolHourData.hourlyTxns.plus(ONE_BI)
+  poolHourData.save()
 
-  return pairHourData as PairHourData
+  return poolHourData as PoolHourData
 }
 
 export function updateTokenDayData(token: Token, event: EthereumEvent): TokenDayData {
@@ -122,7 +117,7 @@ export function updateTokenDayData(token: Token, event: EthereumEvent): TokenDay
    * @todo test if this speeds up sync
    */
   // updateStoredTokens(tokenDayData as TokenDayData, dayID)
-  // updateStoredPairs(tokenDayData as TokenDayData, dayPairID)
+  // updateStoredPools(tokenDayData as TokenDayData, dayPoolID)
 
   return tokenDayData as TokenDayData
 }
