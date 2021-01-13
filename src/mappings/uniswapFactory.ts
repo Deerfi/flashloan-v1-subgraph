@@ -1,10 +1,10 @@
 /* eslint-disable prefer-const */
 import { log } from '@graphprotocol/graph-ts'
 import { UniswapFactory, Pair, Token, Bundle } from '../types/schema'
-import { PairCreated } from '../types/Factory/Factory'
+import { PairCreated } from '../types/UniswapFactory/Factory'
 import { Pair as PairTemplate } from '../types/templates'
 import {
-  FACTORY_ADDRESS,
+  UNISWAP_FACTORY_ADDRESS,
   ZERO_BD,
   ZERO_BI,
   fetchTokenSymbol,
@@ -15,9 +15,9 @@ import {
 
 export function handleNewPair(event: PairCreated): void {
   // load factory (create if first exchange)
-  let factory = UniswapFactory.load(FACTORY_ADDRESS)
+  let factory = UniswapFactory.load(UNISWAP_FACTORY_ADDRESS)
   if (factory === null) {
-    factory = new UniswapFactory(FACTORY_ADDRESS)
+    factory = new UniswapFactory(UNISWAP_FACTORY_ADDRESS)
     factory.pairCount = 0
     factory.totalVolumeETH = ZERO_BD
     factory.totalLiquidityETH = ZERO_BD
@@ -86,7 +86,6 @@ export function handleNewPair(event: PairCreated): void {
   let pair = new Pair(event.params.pair.toHexString()) as Pair
   pair.token0 = token0.id
   pair.token1 = token1.id
-  pair.liquidityProviderCount = ZERO_BI
   pair.createdAtTimestamp = event.block.timestamp
   pair.createdAtBlockNumber = event.block.number
   pair.txCount = ZERO_BI
