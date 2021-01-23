@@ -1,10 +1,10 @@
 /* eslint-disable prefer-const */
 import { log, BigInt, BigDecimal, Address, EthereumEvent } from '@graphprotocol/graph-ts'
-import { ERC20 } from '../types/Factory/ERC20'
-import { ERC20SymbolBytes } from '../types/Factory/ERC20SymbolBytes'
-import { ERC20NameBytes } from '../types/Factory/ERC20NameBytes'
+import { ERC20 } from '../types/UniswapFactory/ERC20'
+import { ERC20SymbolBytes } from '../types/UniswapFactory/ERC20SymbolBytes'
+import { ERC20NameBytes } from '../types/UniswapFactory/ERC20NameBytes'
 import { User, Bundle, Token, LiquidityPosition, LiquidityPositionSnapshot, Pair, Pool } from '../types/schema'
-import { Factory as UniswapFactoryContract } from '../types/templates/Pair/Factory'
+import { UniswapFactory as UniswapFactoryContract } from '../types/templates/Pair/UniswapFactory'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const UNISWAP_FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
