@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { log } from '@graphprotocol/graph-ts'
 import { FlashLoanFactory, Pool, Token, Bundle } from '../types/schema'
-import { PoolCreated } from '../types/Factory/Factory'
+import { PoolCreated } from '../types/FlashLoanFactory/FlashLoanFactory'
 import { Pool as PoolTemplate } from '../types/templates'
 import {
   FLASH_LOAN_FACTORY_ADDRESS,
