@@ -3,8 +3,8 @@ import { log, BigInt, BigDecimal, Address, EthereumEvent } from '@graphprotocol/
 import { ERC20 } from '../types/UniswapFactory/ERC20'
 import { ERC20SymbolBytes } from '../types/UniswapFactory/ERC20SymbolBytes'
 import { ERC20NameBytes } from '../types/UniswapFactory/ERC20NameBytes'
-import { User, Bundle, Token, LiquidityPosition, LiquidityPositionSnapshot, Pair, Pool } from '../types/schema'
-import { UniswapFactory as UniswapFactoryContract } from '../types/templates/Pair/UniswapFactory'
+import { User, Bundle, Token, LiquidityPosition, LiquidityPositionSnapshot, Pool } from '../types/schema'
+import { UniswapFactory as UniswapFactoryContract } from '../types/UniswapFactory/UniswapFactory'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const UNISWAP_FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
