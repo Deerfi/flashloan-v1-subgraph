@@ -77,6 +77,10 @@ templates:
           file: ./abis/pool.json
         - name: FlashLoanFactory
           file: ./abis/flashLoanFactory.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: UniswapFactory
+          file: ./abis/uniswapFactory.json
       eventHandlers:
         - event: Mint(indexed address,uint256)
           handler: handleMint
