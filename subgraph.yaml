@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: FlashLoanFactory
-    network: kovan
+    network: mainnet
     source:
-      address: '0x60Ba868E317079eeB58b07EeFf413d7868A5408c'
+      address: '0xa22F8cf50D9827Daef24dCb5BAC92C147a9D342e'
       abi: FlashLoanFactory
-      startBlock: 23092734
+      startBlock: 11720981
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -33,11 +33,11 @@ dataSources:
           handler: handleNewPool
   - kind: ethereum/contract
     name: UniswapFactory
-    network: kovan
+    network: mainnet
     source:
       address: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
       abi: UniswapFactory
-      startBlock: 18344859
+      startBlock: 10000834
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -61,7 +61,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: kovan
+    network: mainnet
     source:
       abi: Pool
     mapping:
@@ -94,7 +94,7 @@ templates:
           handler: handlePoolSync
   - kind: ethereum/contract
     name: Pair
-    network: kovan
+    network: mainnet
     source:
       abi: Pair
     mapping:

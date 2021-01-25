@@ -8,7 +8,7 @@ import { UniswapFactory as UniswapFactoryContract } from '../types/UniswapFactor
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const UNISWAP_FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
-export const FLASH_LOAN_FACTORY_ADDRESS = '0x60Ba868E317079eeB58b07EeFf413d7868A5408c'
+export const FLASH_LOAN_FACTORY_ADDRESS = '0xa22F8cf50D9827Daef24dCb5BAC92C147a9D342e'
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
